@@ -1,0 +1,137 @@
+\documentclass[11pt]{article}
+
+% Load your custom style file.
+% Adjust the path if needed depending on where this .tex file lives.
+\usepackage[solutions]{Style}
+
+\begin{document}
+
+% Set the homework information that appears at the top of the page.
+% Order: student name, course, assignment title, due date, collaborators.
+\sethwinfo{Hem Dadlani}{Math 55}{Sample Homework Write-Up}{April 13, 2026}[None]
+
+% Print the formatted homework title block.
+\makehwtitle
+
+% A section header. Problem numbers will reset by section because of Style.sty.
+\section{Linear Algebra Warm-Up}
+
+% Example problem environment.
+% First optional argument = problem title.
+% Second optional argument = points.
+\begin{problem}[A basic proof][10]
+    Prove that if $v \in \R^n$ and $0v = 0$, then $v + 0 = v$.
+\end{problem}
+
+% The solution environment only appears because we loaded Style.sty with [solutions].
+% If you switch to [nosolutions], everything inside solution environments is hidden.
+\begin{solution}
+    By the vector space axioms, $0v = 0$ for every vector $v$, and $0$ is the additive identity.
+    Hence
+    \[
+        v + 0 = v.
+    \]
+\end{solution}
+
+% Example with subproblems.
+\begin{problem}[Quick computations][12]
+    Let
+    \[
+        A = \begin{pmatrix}1 & 2\\ 3 & 4\end{pmatrix}.
+    \]
+    Compute the following.
+    \begin{subproblem}
+        \item $\Tr(A)$
+        \item $\det(A)$
+        \item $A\transpose$
+    \end{subproblem}
+\end{problem}
+
+\begin{solution}
+    \begin{subproblem}
+        \item Since $\Tr(A)$ is the sum of the diagonal entries,
+        \[
+            \Tr(A) = 1+4=5.
+        \]
+        \item We compute
+        \[
+            \det(A)=1\cdot 4 - 2\cdot 3 = -2.
+        \]
+        \item The transpose is
+        \[
+            A\transpose = \begin{pmatrix}1 & 3\\ 2 & 4\end{pmatrix}.
+        \]
+    \end{subproblem}
+\end{solution}
+
+% Example theorem-style environments from Style.sty.
+\begin{definition}[Span]
+    If $v_1,\dots,v_k \in V$, then
+    \[
+        \Span(v_1,\dots,v_k)
+    \]
+    is the set of all linear combinations of $v_1,\dots,v_k$.
+\end{definition}
+
+\begin{remark}
+    The command \verb|\Span| is already defined in your style file as a math operator,
+    so it gets the correct spacing automatically.
+\end{remark}
+
+\begin{theorem}[Tiny example]
+    Let $V$ be a vector space and let $v \in V$. Then $\Span(v)$ is a subspace of $V$.
+\end{theorem}
+
+\begin{proof}
+    To show $\Span(v)$ is a subspace, check the usual three properties:
+    it contains $0$, it is closed under addition, and it is closed under scalar multiplication.
+    Indeed, every element of $\Span(v)$ has the form $av$ for some scalar $a$.
+    If $av,bv \in \Span(v)$, then
+    \[
+        av+bv=(a+b)v \in \Span(v),
+    \]
+    and for any scalar $c$,
+    \[
+        c(av)=(ca)v \in \Span(v).
+    \]
+    Also, $0v=0 \in \Span(v)$.
+\end{proof}
+
+\section{Using the custom commands}
+
+% This problem shows off several macros from Style.sty.
+\begin{problem}[Style.sty macro demo][15]
+    Let $x,y \in \R^n$. Write a short display that uses the custom commands
+    \verb|\abs|, \verb|\norm|, \verb|\inner|, \verb|\set|, and \verb|\ceil|.
+\end{problem}
+
+\begin{solution}
+    Here are a few examples:
+    \[
+        \abs{-7} = 7,
+        \qquad
+        \norm{x+y} \le \norm{x} + \norm{y},
+        \qquad
+        \inner{x}{y} = \sum_{i=1}^n x_i y_i.
+    \]
+    \[
+        S = \set*{n \in \N \given n \text{ is even}},
+        \qquad
+        \ceil*{\frac{7}{2}} = 4.
+    \]
+
+    % The starred versions like \ceil* or \norm* automatically size the delimiters.
+    The starred delimiter forms automatically adjust the size of the brackets when needed.
+\end{solution}
+
+% Utility command examples.
+\paragraph{A few utility commands}
+
+This is a normal sentence. \highlight{This text is highlighted using the custom command.}
+
+\TODO{Replace this sample TODO with something real before submitting.}
+
+% marginref puts a note in the margin.
+\marginref{Useful when reviewing drafts.}
+
+\end{document}

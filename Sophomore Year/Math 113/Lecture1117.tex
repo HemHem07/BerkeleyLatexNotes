@@ -1,0 +1,79 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Document information
+\title{Math 113: Lecture Notes}
+\author{}
+\date{November 17, 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Lecture Notes}
+
+\begin{theorem}[Kronecker's Theorem]
+Let $F$ be a field and $f(x) \in F[x]$ a nonconstant polynomial.
+Then there exists an extension field $E \supseteq F$
+and $\alpha \in E$ such that $f(\alpha) = 0$.
+\end{theorem}
+
+\begin{proof}
+We know that f(x) can be factored into irreducible polynomials over F. Pick p(x) to be on eo fhtese irreducible factors. It suffices to find a zero $\alpha$ of p(x), since this will also be a zero of f(x)
+\\From last time, we know $\langle p(x) \rangle$ is maximal, Since E is a field, and $\langle p(x) \rangle$ is maximal. 
+\\ Want injective ring homomorphism $\psi:F \rightarrow E = F[x] / \langle p(x) \rangle$
+\\ Let's take $a \mapsto a + \langle p(x) \rangle$
+\\This is a ring homomorphism, since it is the composition of homomorphisms. $F \rightarrow F[X] \rightarrow F[x] / \langle p(x) \rangle$
+\\However, we need to show that this is injective. 
+\\Suppose $\psi(a) = \psi(b), \text{then } a+\langle p(x) \rangle = b _ \langle p(x) \rangle$, so $a-b \in \langle p(x) \rangle$
+\\a-b is constant, so a-b = 0, so a = b and $\psi $ is injective
+\\ So we identity F with $\operatorname{im}{\psi} \subseteq E$
+
+
+Let $\alpha = x + \langle p(x) \rangle$ 
+
+$\phi_{\alpha}(p(x)) = 0$
+
+Let $p(x) = a_0 + a_1x + \dots + a_nx^n, a_i \in F \subseteq E$
+$phi_{\alpha}(p(x)) = a_0 + a_1(x + \langle p(x) \rangle) + \dots + a_n(x+ \langle p(x) \rangle)^n$
+$= (a_0 + a_1x + a_1x^2 + \dots + a_nx^n) + \langle p(x) \rangle = p(x) + \langle p(x) \rangle = 0 + \langle p(x) \rangle = 0 \in E$. Thus we found $\alpha \in E \text{ with } p(\alpha) = 0$
+
+\end{proof}
+
+\begin{example}
+    $F = \mathbb{R}, f(x) = x^2 + 1$ Note that this polynomial is irreducible over the field. 
+    
+    $E = \mathbb{R}[x] / \langle x^2 + 1 \rangle \text{ is a field. And } x + \langle x^2 + 1 \rangle \text{ is a zero of f}$
+
+    $\phi: E \cong \mathbb{C}, \phi(x + \langle x^2 + 1 \rangle) = i$
+
+    $i^2 = x^2 + \langle x^2 + 1 \rangle \Rightarrow i^2 + 1 = x^2 + 1 + \langle x^2 + 1 \rangle = 0$
+
+\end{example}
+
+\begin{example}
+    $F = \mathbb{Q}, f(x) = x^4 - 5x^2 + 6 = (x^2-2)(x^2-3)$
+    
+    $p(x) = x^2 -2$ or $p(x) = x^2 - 3$
+
+    
+\end{example}
+\end{document}
+

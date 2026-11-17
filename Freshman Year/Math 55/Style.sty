@@ -1,0 +1,177 @@
+% LaTeX/mystyle/Style.sty -- math homework helpers
+% Last updated: 2026-04-12
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{Style}[2026/04/12 v1.0 Math homework helpers]
+
+% Core packages that nearly every math write-up needs
+\RequirePackage{needspace}
+\RequirePackage{xparse}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{mathtools}
+\RequirePackage{thmtools}
+\RequirePackage{enumitem}
+\RequirePackage{xcolor}
+\RequirePackage{mdframed}
+\RequirePackage{comment}
+
+% -------------------------------------------------
+% Options (e.g., \usepackage[solutions]{Style})
+% -------------------------------------------------
+\newif\ifStyle@solutions
+\Style@solutionsfalse
+
+\DeclareOption{solutions}{\Style@solutionstrue}
+\DeclareOption{nosolutions}{\Style@solutionsfalse}
+\ProcessOptions\relax
+
+% -------------------------------------------------
+% Homework heading helpers
+% -------------------------------------------------
+\newcommand{\hwStudent}{Anonymous Student}
+\newcommand{\hwCourse}{Math Course}
+\newcommand{\hwAssignment}{Homework}
+\newcommand{\hwDueDate}{\today}
+\newcommand{\hwCollaborators}{None}
+
+\NewDocumentCommand{\sethwinfo}{m m m m O{None}}{%%
+  \renewcommand{\hwStudent}{#1}%
+  \renewcommand{\hwCourse}{#2}%
+  \renewcommand{\hwAssignment}{#3}%
+  \renewcommand{\hwDueDate}{#4}%
+  \renewcommand{\hwCollaborators}{#5}%
+}
+
+\newcommand{\makehwtitle}{%%
+    \begin{center}
+        {\LARGE\bfseries \hwAssignment}\\[0.3em]
+        {\large \hwCourse}\\[0.2em]
+        {\normalsize Due: \hwDueDate}\\[0.6em]
+        {\large \hwStudent}\\[0.2em]
+        \textit{Collaborators: }\hwCollaborators
+    \end{center}
+    \vspace{0.75em}
+    \hrule
+    \vspace{1em}
+}
+
+% -------------------------------------------------
+% Counters and problem/solution environments
+% -------------------------------------------------
+\newcounter{problem}
+\numberwithin{problem}{section}
+\renewcommand{\theproblem}{\thesection.\arabic{problem}}
+
+\NewDocumentEnvironment{problem}{O{} O{}}{%% optional args: title, points
+    \refstepcounter{problem}% ensure hyperref targets
+    \par\addvspace{0.75\baselineskip}
+    \noindent\textbf{Problem~\theproblem}
+    \if\relax\detokenize{#1}\relax\else\textbf{: #1}\fi%%% title
+    \if\relax\detokenize{#2}\relax\else\hfill\textit{[#2 points]}\fi
+    \par
+}{
+    \par\addvspace{0.5\baselineskip}
+}
+
+\NewDocumentEnvironment{subproblem}{}{\begin{enumerate}[label=\textnormal{(\alph*)},leftmargin=*]}{\end{enumerate}}
+
+\NewDocumentEnvironment{solution}{}{%
+    \ifStyle@solutions
+        \Needspace{10\baselineskip}
+        \begin{mdframed}[
+            linewidth=0.5pt,
+            skipabove=0.5\baselineskip,
+            skipbelow=0.5\baselineskip,
+            innertopmargin=0.6\baselineskip,
+            innerbottommargin=0.6\baselineskip,
+            innerleftmargin=0.75em,
+            innerrightmargin=0.75em,
+            splittopskip=\topskip,
+            splitbottomskip=0pt
+            everyline=true
+        ]
+        \textbf{Solution.}\par
+    \else
+        \begin{comment}
+    \fi
+}{%
+    \ifStyle@solutions
+        \end{mdframed}
+    \else
+        \end{comment}
+    \fi
+}
+
+% -------------------------------------------------
+% Theorem styles
+% -------------------------------------------------
+\declaretheoremstyle[
+  headfont=\normalfont\bfseries,
+  bodyfont=\normalfont,
+  spaceabove=12pt, spacebelow=12pt,
+  headpunct=:,
+  notefont=\normalfont\bfseries
+]{hwthm}
+
+\declaretheorem[numberwithin=section,name=Theorem,style=hwthm]{theorem}
+\declaretheorem[name=Lemma,style=hwthm,sibling=theorem]{lemma}
+\declaretheorem[name=Proposition,style=hwthm,sibling=theorem]{proposition}
+\declaretheorem[name=Corollary,style=hwthm,sibling=theorem]{corollary}
+\declaretheorem[name=Definition,style=hwthm,sibling=theorem]{definition}
+\declaretheorem[name=Example,style=hwthm,sibling=theorem]{example}
+\declaretheorem[name=Remark,style=hwthm,sibling=theorem]{remark}
+
+% -------------------------------------------------
+% Paired delimiters and algebra macros
+% -------------------------------------------------
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiterX{\set}[1]{\lbrace}{\rbrace}{#1}
+\DeclarePairedDelimiterX{\inner}[2]{\langle}{\rangle}{#1,\,#2}
+
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\transpose}{^{\mathsf{T}}}
+
+% Blackboard bold shortcuts
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+
+% Common operators
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\Res}{Res}
+
+% Shortcuts for frequently used symbols
+\newcommand{\eps}{\varepsilon}
+\newcommand{\phiinv}{\varphi^{-1}}
+\newcommand{\defeq}{\vcentcolon=}
+\newcommand{\eqdef}{=\vcentcolon}
+\newcommand{\given}{\nonscript\;\delimsize\vert\nonscript\;}
+
+% -------------------------------------------------
+% Utility commands
+% -------------------------------------------------
+\NewDocumentCommand{\TODO}{m}{\textcolor{red}{\textbf{TODO:} #1}}
+\NewDocumentCommand{\highlight}{O{yellow!35} m}{\colorbox{#1}{#2}}
+\NewDocumentCommand{\marginref}{m}{\marginpar{\scriptsize #1}}
+
+\setlist[enumerate]{itemsep=0.25em,topsep=0.4em,parsep=0pt}
+\setlist[itemize]{itemsep=0.25em,topsep=0.4em,parsep=0pt}
+
+% Allow equation numbering per section by default
+\numberwithin{equation}{section}
+
+% End of Style.sty

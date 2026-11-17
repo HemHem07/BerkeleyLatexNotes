@@ -1,0 +1,75 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+\newcommand{\topic}[1]{\section*{#1}}
+\newcommand{\subtopic}[1]{\subsection*{#1}}
+\newcommand{\definition}[1]{\textbf{Definition.} #1}
+\newcommand{\example}[1]{\textbf{Example.} #1}
+\newcommand{\note}[1]{\textbf{Note.} #1}
+
+\title{Econ 101A Discussion Notes}
+\author{Hem Dadlani}
+\date{September 17, 2026}
+
+\begin{document}
+
+\maketitle
+
+\topic{Expenditure Minimization}
+\textbf{Key Idea: }Fix the utility, and ask how little money reaches it.
+\subtopic{Key Idea}
+
+$Hicksian (demand) = h_x (p_x,p_y,\bar{u})$
+
+We minimize $p_xx + p_yy$ subject to $u(x,y) \geq \bar{u}$, where $\bar{u}$ is the target utility
+Usually the utility constraint binds as equality: 
+$u(x,y) = \bar{u}$
+We can set up the Lagrangian: 
+
+
+\subtopic{Shephard's Lemma}
+
+\subtopic{Example 3}{
+    Amy, with $u(x,y) = \sqrt{x} + \sqrt{y}$, now required to reach $\bar{u}$\\
+    $$\mathcal{L} = p_xx + p_yy - \mu(\sqrt{x}+\sqrt{y}-\bar{u})
+    $$
+    FOCS:
+    
+            \[
+        \begin{aligned}
+        \frac{\partial\mathcal{L}}{\partial x}
+        &= p_x - \frac{\mu}{2\sqrt{x}} = 0 \\
+        \frac{\partial\mathcal{L}}{\partial y}
+        &= p_y - \frac{\mu}{2\sqrt{y}} = 0 \\
+        \frac{\partial\mathcal{L}}{\partial \mu}
+        &= -\sqrt{x}-\sqrt{y}+\bar{u}=0 \\
+        \mu &= 2p_x\sqrt{x} \\
+        \mu &= 2p_y\sqrt{y}
+        \end{aligned}
+        \]
+    
+    
+
+}
+\subtopic{Important Notes}
+
+\begin{itemize}
+    \item 
+    \item 
+    \item 
+\end{itemize}
+
+\subtopic{Questions}
+
+\begin{itemize}
+    \item 
+\end{itemize}
+
+\end{document}

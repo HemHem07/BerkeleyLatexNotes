@@ -1,0 +1,18 @@
+# LaTeX temporary files
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.nav
+*.snm
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
