@@ -75,5 +75,67 @@ $= (a_0 + a_1x + a_1x^2 + \dots + a_nx^n) + \langle p(x) \rangle = p(x) + \langl
 
     
 \end{example}
+
+\section{Algebraic \& Transcendental Elements}
+We have various kinds of extension fields. 
+
+We can classify elements of E into two kinds 
+
+\begin{definition}
+    An element $\alpha \in E > F$ is algebraic over F if $f(\alpha) = 0$ for some nonzero $f(x) \in F[x]$
+
+    Otherwise, $\alpha$ is transcendental over F
+
+\end{definition}
+
+\begin{example}
+    $i \in \mathbb{C} \supseteq \mathbb{R}$
+    Algebraic, since it is a zero of $f(x) = x^2 + 1 \in \mathbb{R}[x]$
+    The same applies for $i \in \mathbb{C} \supseteq \mathbb{Q}$
+\end{example}
+\begin{example}
+    $\sqrt(2) \in \mathbb{R} \supseteq \mathbb{Q}$
+    Algebraic, since it is a zero of $x^2-2 \in \mathbb{Q}[x]$
+\end{example}
+\begin{example}
+    $\pi \in \mathbb{R} \supseteq \mathbb{Q}$ is transcendental. Not the zero of some polynomial over the rationals.  
+\end{example}
+\begin{example}
+    $\pi \in \mathbb{R} \supseteq \mathbb{Q}(\pi)$, the smallest subfield of R, containing Q and pi. 
+
+    So pi is algbraic since it is a zero of $x - \pi \in\mathbb{Q}(\pi)[x]$
+    
+\end{example}
+
+\begin{example}
+    $\alpha = \sqrt{1 + \sqrt{3}} \in \mathbb{R} \supseteq \mathbb{Q}$
+is algebraic, since
+\[
+\alpha^2 = 1 + \sqrt{3}
+\Rightarrow (\alpha^2 - 1)^2 = 3
+\Rightarrow (\alpha^2 - 1)^2 - 3 = 0.
+\]
+\end{example}
+
+Note: An element of $\mathbb{C}$ that is algebraic over $\mathbb{Q}$ is called an algebraic number 
+
+\begin{theorem}
+    Let $\alpha \in E \supseteq F.$ Then $\alpha$ is transcendental over F iff $\phi_{\alpha}:F[x] \rightarrow E$ is injective
+\end{theorem}
+\begin{proof}
+    \[
+\begin{aligned}
+\alpha \text{ is transcendental over } F
+&\iff f(\alpha) \neq 0 \quad \text{for every nonzero } f(x) \in F[x] \\
+&\iff \phi_{\alpha}(f(x)) \neq 0 \quad \text{for every nonzero } f(x) \in F[x] \\
+&\iff \ker(\phi_{\alpha}) = \{0\} \\
+&\iff \phi_{\alpha} \text{ is injective}.
+\end{aligned}
+\]
+\end{proof}
+
+\begin{theorem}
+Let $\alpha \in E \supseteq F$ be algebraic over F. Then there is an irreducible polynomial with p(alpha) = 0. This p(x) is unique up to a constant factor in F and is a polynomial of minimal degree in F[x] having alpha as a zero. Thus, if $f(x) \in F[x] \text{ has } f(\alpha = 0) \Rightarrow p(x) \text{ divides } f(x)$
+\end{theorem}
 \end{document}
 
