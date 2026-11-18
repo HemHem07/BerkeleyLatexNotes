@@ -15,7 +15,7 @@
 \maketitle
 \noindent Use this guide while writing: read the explanation, copy the source,
 then compare it with the rendered example. The final sections document all
-49 personal VS Code snippets and the commands in your current style file.
+110 personal VS Code snippets and the commands in your current style file.
 \tableofcontents
 \newpage
 
@@ -415,7 +415,7 @@ editable numerator and denominator fields. The \texttt{inline} body looks
 unusual because it combines literal dollar signs with snippet placeholders:
 after expansion it gives a single-dollar inline math pair, with the cursor
 outside it. Do not paste raw placeholder bodies directly into a TeX document.
-These are the 49 personal snippets from your VS Code \texttt{latex.json};
+These are the 110 personal snippets from your supplied updated list;
 extension-provided snippets and keyboard keybindings are separate.
 
 \subsection{Document templates}
@@ -762,5 +762,115 @@ $${1:expression}$$0
 \begin{lstlisting}
 \input{${1:filename}}$0
 \end{lstlisting}
+
+
+\subsection{Symbol shortcuts: trigger, command, and result}
+These snippets insert math symbols, so expand them inside inline or display
+math. Triggers are case-sensitive: \lstinline!;g! inserts
+\lstinline!\gamma!, while \lstinline!;G! inserts \lstinline!\Gamma!.
+The semicolon belongs to the editor trigger and is replaced during expansion.
+For example, expanding \lstinline!;a! inside \lstinline!$...$! inserts
+\lstinline!\alpha! and renders as \(\alpha\).
+
+Your default epsilon and phi triggers use \lstinline!\varepsilon! and
+\lstinline!\varphi!; the alternate triggers give \lstinline!\epsilon! and
+\lstinline!\phi!. Omicron inserts the ordinary letter \lstinline!o!.
+The \lstinline!iso! shortcut inserts \lstinline!\cong! (\(\cong\)).
+
+\subsubsection*{Lowercase Greek letters}
+\begin{longtable}{@{}p{0.12\linewidth}p{0.25\linewidth}p{0.11\linewidth}p{0.42\linewidth}@{}}
+\toprule Trigger & Inserts & Result & Meaning \\ \midrule
+\endhead
+\lstinline!;a! & \lstinline!\alpha! & \(\alpha\) & Greek alpha \\
+\lstinline!;b! & \lstinline!\beta! & \(\beta\) & Greek beta \\
+\lstinline!;g! & \lstinline!\gamma! & \(\gamma\) & Greek gamma \\
+\lstinline!;d! & \lstinline!\delta! & \(\delta\) & Greek delta \\
+\lstinline!;e! & \lstinline!\varepsilon! & \(\varepsilon\) & Greek epsilon \\
+\lstinline!;z! & \lstinline!\zeta! & \(\zeta\) & Greek zeta \\
+\lstinline!;h! & \lstinline!\eta! & \(\eta\) & Greek eta \\
+\lstinline!;t! & \lstinline!\theta! & \(\theta\) & Greek theta \\
+\lstinline!;i! & \lstinline!\iota! & \(\iota\) & Greek iota \\
+\lstinline!;k! & \lstinline!\kappa! & \(\kappa\) & Greek kappa \\
+\lstinline!;l! & \lstinline!\lambda! & \(\lambda\) & Greek lambda \\
+\lstinline!;m! & \lstinline!\mu! & \(\mu\) & Greek mu \\
+\lstinline!;n! & \lstinline!\nu! & \(\nu\) & Greek nu \\
+\lstinline!;x! & \lstinline!\xi! & \(\xi\) & Greek xi \\
+\lstinline!;o! & \lstinline!o! & \(o\) & Greek omicron \\
+\lstinline!;p! & \lstinline!\pi! & \(\pi\) & Greek pi \\
+\lstinline!;r! & \lstinline!\rho! & \(\rho\) & Greek rho \\
+\lstinline!;s! & \lstinline!\sigma! & \(\sigma\) & Greek sigma \\
+\lstinline!;u! & \lstinline!\tau! & \(\tau\) & Greek tau \\
+\lstinline!;y! & \lstinline!\upsilon! & \(\upsilon\) & Greek upsilon \\
+\lstinline!;f! & \lstinline!\varphi! & \(\varphi\) & Greek phi \\
+\lstinline!;c! & \lstinline!\chi! & \(\chi\) & Greek chi \\
+\lstinline!;j! & \lstinline!\psi! & \(\psi\) & Greek psi \\
+\lstinline!;w! & \lstinline!\omega! & \(\omega\) & Greek omega \\
+\bottomrule
+\end{longtable}
+
+\subsubsection*{Alternate Greek letters}
+\begin{longtable}{@{}p{0.12\linewidth}p{0.25\linewidth}p{0.11\linewidth}p{0.42\linewidth}@{}}
+\toprule Trigger & Inserts & Result & Meaning \\ \midrule
+\endhead
+\lstinline!;ve! & \lstinline!\epsilon! & \(\epsilon\) & Greek alternate epsilon \\
+\lstinline!;vf! & \lstinline!\phi! & \(\phi\) & Greek alternate phi \\
+\lstinline!;vt! & \lstinline!\vartheta! & \(\vartheta\) & Greek alternate theta \\
+\lstinline!;vr! & \lstinline!\varrho! & \(\varrho\) & Greek alternate rho \\
+\lstinline!;vs! & \lstinline!\varsigma! & \(\varsigma\) & Greek alternate sigma \\
+\lstinline!;vp! & \lstinline!\varpi! & \(\varpi\) & Greek alternate pi \\
+\lstinline!;vk! & \lstinline!\varkappa! & \(\varkappa\) & Greek alternate kappa \\
+\bottomrule
+\end{longtable}
+
+\subsubsection*{Uppercase Greek letters}
+\begin{longtable}{@{}p{0.12\linewidth}p{0.25\linewidth}p{0.11\linewidth}p{0.42\linewidth}@{}}
+\toprule Trigger & Inserts & Result & Meaning \\ \midrule
+\endhead
+\lstinline!;G! & \lstinline!\Gamma! & \(\Gamma\) & Greek Gamma \\
+\lstinline!;D! & \lstinline!\Delta! & \(\Delta\) & Greek Delta \\
+\lstinline!;T! & \lstinline!\Theta! & \(\Theta\) & Greek Theta \\
+\lstinline!;L! & \lstinline!\Lambda! & \(\Lambda\) & Greek Lambda \\
+\lstinline!;X! & \lstinline!\Xi! & \(\Xi\) & Greek Xi \\
+\lstinline!;P! & \lstinline!\Pi! & \(\Pi\) & Greek Pi \\
+\lstinline!;S! & \lstinline!\Sigma! & \(\Sigma\) & Greek Sigma \\
+\lstinline!;Y! & \lstinline!\Upsilon! & \(\Upsilon\) & Greek Upsilon \\
+\lstinline!;F! & \lstinline!\Phi! & \(\Phi\) & Greek Phi \\
+\lstinline!;J! & \lstinline!\Psi! & \(\Psi\) & Greek Psi \\
+\lstinline!;W! & \lstinline!\Omega! & \(\Omega\) & Greek Omega \\
+\bottomrule
+\end{longtable}
+
+\subsubsection*{Arrows}
+\begin{longtable}{@{}p{0.12\linewidth}p{0.25\linewidth}p{0.11\linewidth}p{0.42\linewidth}@{}}
+\toprule Trigger & Inserts & Result & Meaning \\ \midrule
+\endhead
+\lstinline!->! & \lstinline!\to! & \(\to\) & Right Arrow \\
+\lstinline!<-! & \lstinline!\leftarrow! & \(\leftarrow\) & Left Arrow \\
+\lstinline!<->! & \lstinline!\leftrightarrow! & \(\leftrightarrow\) & Bidirectional Arrow \\
+\lstinline!=>! & \lstinline!\implies! & \(\implies\) & Implies \\
+\lstinline!<=>! & \lstinline!\iff! & \(\iff\) & If and Only If \\
+\lstinline!|->! & \lstinline!\mapsto! & \(\mapsto\) & Maps To \\
+\lstinline!up! & \lstinline!\uparrow! & \(\uparrow\) & Up Arrow \\
+\lstinline!down! & \lstinline!\downarrow! & \(\downarrow\) & Down Arrow \\
+\bottomrule
+\end{longtable}
+
+\subsubsection*{Mathematical symbols}
+\begin{longtable}{@{}p{0.12\linewidth}p{0.25\linewidth}p{0.11\linewidth}p{0.42\linewidth}@{}}
+\toprule Trigger & Inserts & Result & Meaning \\ \midrule
+\endhead
+\lstinline!inn! & \lstinline!\in! & \(\in\) & Element Of \\
+\lstinline!nin! & \lstinline!\notin! & \(\notin\) & Not Element Of \\
+\lstinline!sub! & \lstinline!\subseteq! & \(\subseteq\) & Subset Or Equal \\
+\lstinline!sup! & \lstinline!\supseteq! & \(\supseteq\) & Superset Or Equal \\
+\lstinline!forall! & \lstinline!\forall! & \(\forall\) & For All \\
+\lstinline!exists! & \lstinline!\exists! & \(\exists\) & There Exists \\
+\lstinline!neq! & \lstinline!\neq! & \(\neq\) & Not Equal \\
+\lstinline!leq! & \lstinline!\leq! & \(\leq\) & Less Than Or Equal \\
+\lstinline!geq! & \lstinline!\geq! & \(\geq\) & Greater Than Or Equal \\
+\lstinline!iso! & \lstinline!\cong! & \(\cong\) & Isomorphic \\
+\lstinline!empty! & \lstinline!\varnothing! & \(\varnothing\) & Empty Set \\
+\bottomrule
+\end{longtable}
 
 \end{document}
