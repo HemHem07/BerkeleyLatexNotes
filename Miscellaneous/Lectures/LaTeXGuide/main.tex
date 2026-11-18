@@ -1,0 +1,766 @@
+\documentclass[11pt]{article}
+\usepackage[solutions]{../../../mystyle/Style}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs,longtable,array,listings}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
+\lstset{language=[LaTeX]TeX,basicstyle=\small\ttfamily,columns=fullflexible,
+  keepspaces=true,breaklines=true,showstringspaces=false,frame=single,
+  rulecolor=\color{black!20},backgroundcolor=\color{black!3},tabsize=2}
+\setlength{\emergencystretch}{2em}
+\title{Writing LaTeX\\\large A Practical Guide and Personal Snippet Reference}
+\author{\defaultauthor}
+\date{\today}
+\begin{document}
+\maketitle
+\noindent Use this guide while writing: read the explanation, copy the source,
+then compare it with the rendered example. The final sections document all
+49 personal VS Code snippets and the commands in your current style file.
+\tableofcontents
+\newpage
+
+\section{From a blank file to a document}
+LaTeX turns a plain-text \texttt{.tex} source file into a typeset PDF.
+Save your edits, compile, and read the PDF and any compiler diagnostics.
+Changes in the source appear in the PDF after a successful compilation.
+Start with this minimal document:
+\begin{lstlisting}
+\documentclass{article}
+\title{My Notes}
+\author{Hem Dadlani}
+\date{\today}
+
+\begin{document}
+\maketitle
+\section{Introduction}
+My first paragraph. Inline math: $x^2+1$.
+\end{document}
+\end{lstlisting}
+The \emph{preamble} is everything before \lstinline|\begin{document}|:
+choose the document class, load packages, define commands, and set metadata
+there. The body holds the visible content. Setting a title does not print it;
+\lstinline|\maketitle| prints it.
+
+\subsection{Using your style file}
+Your style loads the usual math packages, theorem environments, homework
+helpers, and shortcuts such as \lstinline|\R| and \lstinline|\abs{x}|.
+For a file in this guide's folder, use:
+\begin{lstlisting}
+\documentclass{article}
+\usepackage[solutions]{../../../mystyle/Style}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx} % for images
+\usepackage[hidelinks]{hyperref} % clickable references
+\end{lstlisting}
+The path depends on your file's location: each \texttt{../} goes up one
+folder. The original reference document, one folder above this guide, uses
+\texttt{../../mystyle/Style}. Templates currently insert
+\texttt{../../../mystyle/Style}; check that path whenever starting somewhere
+new. Filename capitalization matters on some systems.
+Do not paste a complete document template into another document's body.
+
+\section{Writing text and organizing pages}
+A command normally begins with a backslash. Braces contain required arguments;
+square brackets often contain optional arguments. An environment has matching
+\lstinline|\begin{name}| and \lstinline|\end{name}| commands.
+\begin{lstlisting}
+\section{Groups}
+\subsection{Examples}
+\subsubsection{Finite examples}
+This is \textbf{bold}, \emph{emphasized}, and \texttt{code}.
+
+This starts a new paragraph. % This comment is not printed.
+\end{lstlisting}
+This is \textbf{bold}, \emph{emphasized}, and \texttt{code}.
+
+A blank source line starts a paragraph. A single source line break normally
+acts like a space. Use \lstinline|\\| for a deliberate line break in an
+alignment or table; use blank lines for ordinary paragraphs.
+\lstinline|\newpage| starts a page. \lstinline|\tableofcontents| creates the
+contents from section headings; compile again if it is out of date.
+\lstinline|\section*{Acknowledgments}| makes an unnumbered heading that does
+not automatically enter the contents.
+
+\subsection{Characters that need escaping}
+These characters have special meanings in source:
+\begin{lstlisting}
+\%  \$  \&  \#  \_  \{  \}
+\textbackslash{}  \textasciitilde{}  \textasciicircum{}
+\end{lstlisting}
+Result: \% \$ \& \# \_ \{ \} \textbackslash{} \textasciitilde{}
+\textasciicircum{}. A percent sign starts a comment; an underscore denotes a
+subscript in math. For literal commands in a document, use
+\lstinline|\verb| with a delimiter, or a \texttt{verbatim} environment for a
+block. These literal-code forms generally cannot go inside section titles.
+
+\section{Math: choosing the right environment}
+Use inline math inside a sentence, and display math for a separate centered
+formula. Most mathematical commands must be inside one of these math modes.
+\begin{lstlisting}
+For $x\in\R$, we have $x^2\geq 0$.
+\[
+  \frac{a+b}{c}=\sqrt{x^2+1}
+\]
+\end{lstlisting}
+For $x\in\R$, we have $x^2\geq 0$.
+\[\frac{a+b}{c}=\sqrt{x^2+1}\]
+Braces group an argument: \lstinline|x^{n+1}| raises the whole expression,
+whereas \lstinline|x^n+1| only raises the \(n\).
+\begin{lstlisting}
+x_i,\quad x_{i+1},\quad x^{n+1},\quad
+\frac{1}{n},\quad \sqrt{x},\quad \sqrt[3]{x}
+\end{lstlisting}
+\[x_i,\quad x_{i+1},\quad x^{n+1},\quad
+\frac{1}{n},\quad \sqrt{x},\quad \sqrt[3]{x}\]
+
+\subsection{Numbered equations and references}
+\begin{lstlisting}
+\begin{equation}
+  \sum_{i=1}^n i=\frac{n(n+1)}{2}
+  \label{eq:sum}
+\end{equation}
+See Equation~\eqref{eq:sum}.
+\end{lstlisting}
+\begin{equation}\sum_{i=1}^n i=\frac{n(n+1)}{2}\label{eq:sum}\end{equation}
+See Equation~\eqref{eq:sum}. Your style numbers equations within sections.
+An asterisk removes numbering: \texttt{equation*} is unnumbered. Your
+\texttt{eq} snippet inserts \texttt{equation*}; remove the star for a number.
+Do not nest \texttt{equation} or \texttt{align} inside dollar signs or
+\lstinline|\[ ... \]|.
+
+\subsection{Calculations on several lines}
+\begin{lstlisting}
+\begin{align*}
+  (x+1)^2 &= x^2+2x+1 \\
+          &= x(x+2)+1
+\end{align*}
+\end{lstlisting}
+\begin{align*}(x+1)^2 &= x^2+2x+1 \\ &= x(x+2)+1\end{align*}
+The ampersand marks the alignment column, and two backslashes end a row.
+Use \texttt{align} for numbered rows, \texttt{align*} for unnumbered rows,
+and \lstinline|\notag| to suppress an individual row's number.
+\texttt{aligned} is a smaller alignment used \emph{inside} math mode.
+
+\subsection{Words, spacing, and common symbols}
+\begin{lstlisting}
+f(x)=x^2 \quad \text{for all } x\in\R
+A\subseteq B,\quad x\neq y,\quad x\leq y,\quad x\geq y
+P\implies Q,\quad P\iff Q,\quad f:A\to B
+\alpha,\beta,\gamma,\delta,\eps,\theta,\lambda,\pi,\sigma,\omega
+\end{lstlisting}
+\[f(x)=x^2 \quad \text{for all }x\in\R\]
+\[A\subseteq B,\quad x\neq y,\quad x\leq y,\quad x\geq y\]
+\[P\implies Q,\quad P\iff Q,\quad f:A\to B\]
+Use \lstinline|\text{...}| for words in math. Ordinary typed spaces in math
+are mostly ignored; \lstinline|\,|, \lstinline|\quad|, and
+\lstinline|\qquad| insert increasing amounts of space.
+
+\subsection{Sums, products, limits, integrals, and derivatives}
+\begin{lstlisting}
+\sum_{i=1}^n i,\quad \prod_{i=1}^n i=n!,\quad
+\lim_{n\to\infty}\frac1n=0,\quad
+\int_0^1 x^2\,dx=\frac13,\quad
+f'(x),\quad \frac{df}{dx},\quad \frac{\partial f}{\partial x}
+\end{lstlisting}
+\[\sum_{i=1}^n i,\quad \prod_{i=1}^n i=n!,\quad
+\lim_{n\to\infty}\frac1n=0,\quad \int_0^1x^2\,dx=\frac13\]
+\[f'(x),\quad \frac{df}{dx},\quad \frac{\partial f}{\partial x}\]
+Use operator commands such as \lstinline|\sin x| and \lstinline|\log x|
+instead of typing their names as ordinary math letters.
+
+\subsection{Delimiters, matrices, and cases}
+\begin{lstlisting}
+\left(\frac{a}{b}\right),\quad \abs*{\frac{x}{y}}
+\begin{pmatrix} a & b \\ c & d \end{pmatrix}
+f(x)=\begin{cases}
+  x^2 & \text{if }x\geq 0 \\
+  -x & \text{if }x<0
+\end{cases}
+\end{lstlisting}
+\[\left(\frac{a}{b}\right),\quad \abs*{\frac{x}{y}},\quad
+\begin{pmatrix}a&b\\c&d\end{pmatrix}\]
+\[f(x)=\begin{cases}x^2&\text{if }x\geq0\\-x&\text{if }x<0\end{cases}\]
+Put matrix and case snippets inside math mode. Use \texttt{bmatrix} for
+square brackets. Match every \lstinline|\left| with a \lstinline|\right|;
+\lstinline|\right.| supplies an invisible matching delimiter.
+
+\section{Theorems, definitions, examples, and proofs}
+\begin{lstlisting}
+\begin{definition}[Even integer]
+  An integer $n$ is even if $n=2k$ for some $k\in\Z$.
+\end{definition}
+\begin{theorem}\label{thm:even}
+  The sum of two even integers is even.
+\end{theorem}
+\begin{proof}
+  Write $a=2r$ and $b=2s$. Then $a+b=2(r+s)$.
+\end{proof}
+\begin{example}
+  The integers $2$ and $4$ have even sum $6$.
+\end{example}
+Theorem~\ref{thm:even} gives the general statement.
+\end{lstlisting}
+\begin{definition}[Even integer]An integer $n$ is even if $n=2k$ for some $k\in\Z$.\end{definition}
+\begin{theorem}\label{thm:even}The sum of two even integers is even.\end{theorem}
+\begin{proof}Write $a=2r$ and $b=2s$. Then $a+b=2(r+s)$.\end{proof}
+\begin{example}The integers $2$ and $4$ have even sum $6$.\end{example}
+Theorem~\ref{thm:even} gives the general statement.
+Theorem, definition, and example have separate counters and reset each
+section. Lemma, proposition, corollary, and remark share the theorem counter.
+A proof is unnumbered and adds its end-of-proof symbol automatically.
+
+\section{Lists, tables, and images}
+\subsection{Lists}
+\begin{lstlisting}
+\begin{enumerate}
+  \item Check closure.
+  \item Check inverses.
+\end{enumerate}
+\begin{itemize}
+  \item A useful observation.
+  \item Another observation.
+\end{itemize}
+\end{lstlisting}
+\begin{enumerate}\item Check closure.\item Check inverses.\end{enumerate}
+\begin{itemize}\item A useful observation.\item Another observation.\end{itemize}
+Every item begins with \lstinline|\item|. Nest a list inside an item when you
+need subitems; your \texttt{subproblem} environment gives Part A, Part B, etc.
+
+\subsection{Tables}
+\begin{lstlisting}
+\begin{tabular}{lc}
+  Object & Size \\
+  \hline
+  $\Z/2\Z$ & 2 \\
+  $\Z/3\Z$ & 3
+\end{tabular}
+\end{lstlisting}
+\begin{center}\begin{tabular}{lc}Object&Size\\\hline
+$\Z/2\Z$&2\\$\Z/3\Z$&3\end{tabular}\end{center}
+The column specifiers \texttt{l}, \texttt{c}, and \texttt{r} mean left,
+center, and right. Ampersands separate columns; two backslashes end rows.
+A \texttt{table} environment around \texttt{tabular} adds a floating caption
+and label, like a figure.
+
+\subsection{Images and captions}
+Load \texttt{graphicx} in the preamble. Put an actual image at the referenced
+path before compiling this example:
+\begin{lstlisting}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.65\linewidth]{images/diagram.png}
+  \caption{A diagram of the construction.}
+  \label{fig:construction}
+\end{figure}
+See Figure~\ref{fig:construction}.
+\end{lstlisting}
+A figure can move to a suitable page position; \texttt{htbp} gives placement
+preferences. Put its label after the caption so references use the figure
+number. This guide keeps the image code literal so it needs no external image.
+
+\section{References and splitting large documents}
+Choose descriptive, unique labels such as \texttt{eq:sum},
+\texttt{thm:even}, and \texttt{sec:groups}. Use \lstinline|\ref{...}| for a
+number and \lstinline|\eqref{...}| for an equation number with parentheses.
+The tilde in \lstinline|Theorem~\ref{thm:even}| keeps the word and number
+together. Compile again when references show question marks.
+\begin{lstlisting}
+% In the preamble:
+\usepackage{hyperref}
+% In the body:
+\href{https://example.com}{Link text}
+\url{https://example.com}
+\end{lstlisting}
+
+\subsection{Input files versus standalone lecture files}
+For a simple split, keep a single preamble in the main file and insert body-only
+files with \lstinline|\input{Lecture01}|. An input file should not repeat
+\lstinline|\documentclass| or the document environment.
+For lectures that can also compile alone, your \texttt{masterdoc} and
+\texttt{lecturedoc} snippets use \texttt{subfiles} instead:
+\begin{lstlisting}
+% main.tex preamble:
+\usepackage{subfiles}
+% main.tex body:
+\subfile{Lecture01}
+
+% Lecture01.tex:
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\section{Lecture 1}
+Lecture text.
+\end{document}
+\end{lstlisting}
+The child inherits the main preamble. Its path to \texttt{main.tex} must be
+correct. Your lecture template conditionally prints a standalone title so the
+combined master does not get a second title page.
+
+\section{Your homework workflow}
+Load the style with the \texttt{solutions} option to show solutions. Set the
+heading information before printing it:
+\begin{lstlisting}
+% Preamble:
+\usepackage[solutions]{../../../mystyle/Style}
+\sethwinfo{\defaultauthor}{Math 113}{Homework 8}
+  {November 20, 2026}[None]
+% Body:
+\makehwtitle
+\begin{problem}[3][10]
+  Verify the group axioms.
+\end{problem}
+\begin{solution}
+  \begin{subproblem}
+    \item Check associativity.
+    \item Find the identity.
+    \item Find inverses.
+  \end{subproblem}
+\end{solution}
+\end{lstlisting}
+In the current style, the first optional problem argument overrides the printed
+problem identifier; the second shows points. Without an override, numbering
+advances automatically. The optional final argument of \lstinline|\sethwinfo|
+sets collaborators and defaults to None. Without \texttt{solutions}, solution
+content is hidden. For a quick check, compile once with the option and once
+without it. Use a fixed due date instead of \lstinline|\today| when the date
+should not change on recompilation.
+
+\section{Your style commands: shortcut to expansion}
+These are LaTeX macros: type the backslash command in source. They differ from
+editor snippet triggers, which expand before compilation. Math commands in
+this table belong inside math mode unless the note says otherwise.
+\begin{longtable}{@{}p{0.27\linewidth}p{0.67\linewidth}@{}}
+\toprule Command & Expansion or purpose \\\midrule\endhead
+\lstinline|\N, \Z, \Q| & \lstinline|\mathbb{N}, \mathbb{Z}, \mathbb{Q}| \\
+\lstinline|\R, \C, \F| & \lstinline|\mathbb{R}, \mathbb{C}, \mathbb{F}| \\
+\lstinline|\abs{x}| & Absolute-value delimiters: \(\abs{x}\) \\
+\lstinline|\norm{x}| & Norm delimiters: \(\norm{x}\) \\
+\lstinline|\ceil{x}, \floor{x}| & Ceiling \(\ceil{x}\) and floor \(\floor{x}\) \\
+\lstinline|\set{x,y}| & Braced set: \(\set{x,y}\) \\
+\lstinline|\inner{x}{y}| & Inner product: \(\inner{x}{y}\) \\
+\lstinline|\vect{v}| & \lstinline|\mathbf{v}|: \(\vect{v}\) \\
+\lstinline|A\transpose| & \lstinline|A^{\mathsf{T}}|: \(A\transpose\) \\
+\lstinline|\eps| & \lstinline|\varepsilon|: \(\eps\) \\
+\lstinline|\phiinv| & \lstinline|\varphi^{-1}|: \(\phiinv\) \\
+\lstinline|\defeq, \eqdef| & \lstinline|\vcentcolon=, =\vcentcolon|: \(x\defeq 3\), \(3\eqdef x\) \\
+\lstinline|\given| & \lstinline|\mathrel{\middle\vert}|; use between matching left/right delimiters \\
+\lstinline|\im, \rank, \Span| & Upright math operators: \(\im(f),\rank(A),\Span\set{u,v}\) \\
+\lstinline|\Tr, \Var, \Cov| & Upright operators: \(\Tr(A),\Var(X),\Cov(X,Y)\) \\
+\lstinline|\diag, \Res| & Upright operators: \(\diag(A),\Res(f)\) \\
+\lstinline|\defaultauthor| & Your configured author name (text) \\
+\lstinline|\sethwinfo| & Four required heading fields and optional collaborators (text) \\
+\lstinline|\makehwtitle| & Print the homework heading (text) \\
+\lstinline|\hwStudent, \hwCourse| & Current student and course heading fields (text) \\
+\lstinline|\hwAssignment| & Current assignment field (text) \\
+\lstinline|\hwDueDate| & Current due-date field (text) \\
+\lstinline|\hwCollaborators| & Current collaborator field (text) \\
+\lstinline|\TODO{Review}| & Red bold reminder (text) \\
+\lstinline|\highlight{text}| & Yellow highlight; optional color, e.g. \lstinline|\highlight[green!25]{text}| \\
+\lstinline|\marginref{Note}| & Small margin note (text) \\
+\bottomrule
+\end{longtable}
+Paired-delimiter commands accept a star for automatic sizing, for example
+\lstinline|\norm*{\frac{x}{y}}|. For conditional probability, use
+\lstinline|\left( A \given B \right)| so \lstinline|\middle| has its
+required matching delimiters. The raw heading fields can be changed with
+\lstinline|\renewcommand|, but \lstinline|\sethwinfo| fills them together.
+
+\section{Compiling and fixing errors}
+Save the source and run your editor's LaTeX build or compile action. In VS Code,
+use the LaTeX extension's build command if one is installed. A local terminal
+alternative, run from the main file's folder, is:
+\begin{lstlisting}
+pdflatex -interaction=nonstopmode -halt-on-error main.tex
+pdflatex -interaction=nonstopmode -halt-on-error main.tex
+\end{lstlisting}
+The second run resolves contents and references. In a multifile project,
+compile the main file for the complete document.
+\begin{description}
+\item[Undefined control sequence.] Check spelling and whether the package or
+style defining that command was loaded. For example, \lstinline|\R| needs
+your style, and \lstinline|\includegraphics| needs \texttt{graphicx}.
+\item[Missing dollar sign.] A math command or underscore may be outside math
+mode, or a math delimiter may be unmatched. Inspect the preceding lines too.
+\item[File not found.] Check the relative path, spelling, and capitalization
+of a style, input file, or image. Do not add another random \texttt{../}.
+\item[Environment ended by the wrong name.] Match begin/end names and braces.
+\item[Misplaced alignment tab.] An ampersand belongs in a table or alignment;
+write \lstinline|\&| for an ordinary ampersand.
+\item[Question marks in references.] Compile again, then check that the label
+exists, matches exactly, and belongs to a numbered object.
+\item[Overfull box warning.] Content extends past a margin. Shorten an
+unbreakable expression or split a long equation with an alignment.
+\end{description}
+Fix the first real error and compile again; later messages may be consequences
+of that first error. Keep source and image files; auxiliary files such as
+\texttt{.aux}, \texttt{.log}, and \texttt{.toc} are generated by compilation.
+
+\clearpage
+\section{All personal VS Code snippets}
+\subsection{How to use the shortcuts}
+In a LaTeX source file in VS Code, type a trigger such as \texttt{thm}, select
+the matching snippet suggestion, and accept it. If suggestions are hidden,
+use the editor's Insert Snippet command. Press Tab to move through editable
+fields and Shift+Tab to move back. Tab completion behavior depends on your
+editor settings; the trigger alone is not a LaTeX command.
+
+The blocks below show the \emph{stored snippet bodies exactly}, after JSON
+string decoding. Their placeholder notation is for the snippet engine:
+\begin{itemize}
+\item \lstinline|${1:Title}| means editable field 1, initially containing Title.
+\item \lstinline|$1| and \lstinline|$2| are tab stops; repeated numbers share text.
+\item \lstinline|$0| is the final cursor position and does not remain in TeX.
+\end{itemize}
+Thus \texttt{frac} becomes \lstinline|\frac{numerator}{denominator}| with
+editable numerator and denominator fields. The \texttt{inline} body looks
+unusual because it combines literal dollar signs with snippet placeholders:
+after expansion it gives a single-dollar inline math pair, with the cursor
+outside it. Do not paste raw placeholder bodies directly into a TeX document.
+These are the 49 personal snippets from your VS Code \texttt{latex.json};
+extension-provided snippets and keyboard keybindings are separate.
+
+\subsection{Document templates}
+\subsubsection*{\texttt{latexdoc}: Basic LaTeX document}
+\begin{lstlisting}
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{${1:Title}}
+\author{${2:Author}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{${3:Introduction}}
+$0
+
+\end{document}
+\end{lstlisting}
+\subsubsection*{\texttt{mathdoc}: Math document using Style.sty}
+\begin{lstlisting}
+\documentclass{article}
+\usepackage{../../../mystyle/Style}
+\usepackage[margin=1in]{geometry}
+
+\title{${1:Title}}
+\author{\defaultauthor}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{${2:Introduction}}
+$0
+
+\end{document}
+\end{lstlisting}
+\subsubsection*{\texttt{basiclecture}: Standalone lecture document}
+\begin{lstlisting}
+\documentclass{article}
+\usepackage{../../../mystyle/Style}
+\usepackage[margin=1in]{geometry}
+
+\title{$1 -- Lecture $2}
+\author{\defaultauthor}
+\date{$3}
+
+\begin{document}
+\maketitle
+
+\section{$4}
+$0
+
+\end{document}
+\end{lstlisting}
+\subsubsection*{\texttt{masterdoc}: Master lecture document combining individual lectures}
+\begin{lstlisting}
+\documentclass[11pt]{article}
+\usepackage{../../../mystyle/Style}
+\usepackage[margin=1in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{subfiles}
+
+\title{${1:Course}: ${2:Title}}
+\author{\defaultauthor}
+\date{${3:Semester}}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+% Add lectures below
+\subfile{${4:Lecture1}}
+$0
+
+\end{document}
+\end{lstlisting}
+\subsubsection*{\texttt{lecturedoc}: Lecture with standalone title and master document support}
+\begin{lstlisting}
+\documentclass[main.tex]{subfiles}
+
+% Individual lecture title
+\ifSubfilesClassLoaded{%
+    \title{${1:Course}: ${2:Topic}}
+    \author{\defaultauthor}
+    \date{${3:Lecture Date}}
+}{}
+
+\begin{document}
+
+\ifSubfilesClassLoaded{\maketitle}{}
+
+\section{Lecture ${4:Number}: ${2:Topic}}
+
+$0
+
+\end{document}
+\end{lstlisting}
+\subsubsection*{\texttt{hwdoc}: Homework using Style.sty and a fixed due date}
+\begin{lstlisting}
+\documentclass{article}
+\usepackage[solutions]{../../../mystyle/Style}
+\usepackage[margin=1in]{geometry}
+
+\sethwinfo{\defaultauthor}{${1:Course}}{${2:Homework}}{${3:Due Date}}
+
+\begin{document}
+\makehwtitle
+
+\begin{problem}
+	${4:Problem statement}
+\end{problem}
+
+\begin{solution}
+	$0
+\end{solution}
+
+\end{document}
+\end{lstlisting}
+
+\subsection{Theorem and homework environments}
+\subsubsection*{\texttt{thm}: Theorem environment}
+\begin{lstlisting}
+\begin{theorem}
+	$0
+\end{theorem}
+\end{lstlisting}
+\subsubsection*{\texttt{def}: Definition environment}
+\begin{lstlisting}
+\begin{definition}
+	$0
+\end{definition}
+\end{lstlisting}
+\subsubsection*{\texttt{lem}: Lemma environment}
+\begin{lstlisting}
+\begin{lemma}
+	$0
+\end{lemma}
+\end{lstlisting}
+\subsubsection*{\texttt{prop}: Proposition environment}
+\begin{lstlisting}
+\begin{proposition}
+	$0
+\end{proposition}
+\end{lstlisting}
+\subsubsection*{\texttt{cor}: Corollary environment}
+\begin{lstlisting}
+\begin{corollary}
+	$0
+\end{corollary}
+\end{lstlisting}
+\subsubsection*{\texttt{ex}: Example environment}
+\begin{lstlisting}
+\begin{example}
+	$0
+\end{example}
+\end{lstlisting}
+\subsubsection*{\texttt{rem}: Remark environment}
+\begin{lstlisting}
+\begin{remark}
+	$0
+\end{remark}
+\end{lstlisting}
+\subsubsection*{\texttt{prf}: Proof environment}
+\begin{lstlisting}
+\begin{proof}
+	$0
+\end{proof}
+\end{lstlisting}
+\subsubsection*{\texttt{prob}: Homework problem environment}
+\begin{lstlisting}
+\begin{problem}
+	$0
+\end{problem}
+\end{lstlisting}
+\subsubsection*{\texttt{subprob}: Homework subproblem environment}
+\begin{lstlisting}
+\begin{subproblem}
+	\item $0
+\end{subproblem}
+\end{lstlisting}
+\subsubsection*{\texttt{sol}: Homework solution environment}
+\begin{lstlisting}
+\begin{solution}
+	$0
+\end{solution}
+\end{lstlisting}
+
+\subsection{Equations and basic math}
+\subsubsection*{\texttt{inline}: Inline math}
+\begin{lstlisting}
+$${1:expression}$$0
+\end{lstlisting}
+\subsubsection*{\texttt{display}: Display math}
+\begin{lstlisting}
+\[
+	$0
+\]
+\end{lstlisting}
+\subsubsection*{\texttt{eq}: Unnumbered equation}
+\begin{lstlisting}
+\begin{equation*}
+	$0
+\end{equation*}
+\end{lstlisting}
+\subsubsection*{\texttt{align}: Unnumbered aligned equations}
+\begin{lstlisting}
+\begin{align*}
+	$0
+\end{align*}
+\end{lstlisting}
+\subsubsection*{\texttt{frac}: Fraction}
+\begin{lstlisting}
+\frac{${1:numerator}}{${2:denominator}}$0
+\end{lstlisting}
+\subsubsection*{\texttt{sqrt}: Square root}
+\begin{lstlisting}
+\sqrt{${1:expression}}$0
+\end{lstlisting}
+
+\subsection{Calculus and sets}
+\subsubsection*{\texttt{sum}: Summation}
+\begin{lstlisting}
+\sum_{${1:i=1}}^{${2:n}} $0
+\end{lstlisting}
+\subsubsection*{\texttt{prod}: Product}
+\begin{lstlisting}
+\prod_{${1:i=1}}^{${2:n}} $0
+\end{lstlisting}
+\subsubsection*{\texttt{lim}: Limit}
+\begin{lstlisting}
+\lim_{${1:n}\to ${2:\infty}} $0
+\end{lstlisting}
+\subsubsection*{\texttt{int}: Definite integral}
+\begin{lstlisting}
+\int_{${1:a}}^{${2:b}} ${3:f(x)}\,d${4:x}$0
+\end{lstlisting}
+\subsubsection*{\texttt{set}: Set using Style.sty}
+\begin{lstlisting}
+\set{${1:elements}}$0
+\end{lstlisting}
+\subsubsection*{\texttt{setb}: Set-builder notation}
+\begin{lstlisting}
+\set{${1:x} \mid ${2:condition}}$0
+\end{lstlisting}
+\subsubsection*{\texttt{abs}: Absolute value using Style.sty}
+\begin{lstlisting}
+\abs{${1:x}}$0
+\end{lstlisting}
+\subsubsection*{\texttt{norm}: Norm using Style.sty}
+\begin{lstlisting}
+\norm{${1:x}}$0
+\end{lstlisting}
+\subsubsection*{\texttt{ceil}: Ceiling using Style.sty}
+\begin{lstlisting}
+\ceil{${1:x}}$0
+\end{lstlisting}
+\subsubsection*{\texttt{floor}: Floor using Style.sty}
+\begin{lstlisting}
+\floor{${1:x}}$0
+\end{lstlisting}
+\subsubsection*{\texttt{inner}: Inner product using Style.sty}
+\begin{lstlisting}
+\inner{${1:x}}{${2:y}}$0
+\end{lstlisting}
+
+\subsection{Matrices and math formatting}
+\subsubsection*{\texttt{mat}: 2x2 parenthesis matrix}
+\begin{lstlisting}
+\begin{pmatrix}
+	${1:a} & ${2:b} \\
+	${3:c} & ${4:d}
+\end{pmatrix}$0
+\end{lstlisting}
+\subsubsection*{\texttt{bmat}: 2x2 bracket matrix}
+\begin{lstlisting}
+\begin{bmatrix}
+	${1:a} & ${2:b} \\
+	${3:c} & ${4:d}
+\end{bmatrix}$0
+\end{lstlisting}
+\subsubsection*{\texttt{cases}: Piecewise cases}
+\begin{lstlisting}
+\begin{cases}
+	${1:expression} & ${2:condition} \\
+	${3:expression} & ${4:condition}
+\end{cases}$0
+\end{lstlisting}
+\subsubsection*{\texttt{paren}: Automatically sized parentheses}
+\begin{lstlisting}
+\left(${1:expression}\right)$0
+\end{lstlisting}
+\subsubsection*{\texttt{bracket}: Automatically sized brackets}
+\begin{lstlisting}
+\left[${1:expression}\right]$0
+\end{lstlisting}
+\subsubsection*{\texttt{text}: Text inside math mode}
+\begin{lstlisting}
+\text{${1:text}}$0
+\end{lstlisting}
+\subsubsection*{\texttt{bb}: Blackboard bold}
+\begin{lstlisting}
+\mathbb{${1:R}}$0
+\end{lstlisting}
+\subsubsection*{\texttt{cal}: Calligraphic letters}
+\begin{lstlisting}
+\mathcal{${1:F}}$0
+\end{lstlisting}
+\subsubsection*{\texttt{frak}: Fraktur letters}
+\begin{lstlisting}
+\mathfrak{${1:g}}$0
+\end{lstlisting}
+
+\subsection{Document organization}
+\subsubsection*{\texttt{env}: Generic LaTeX environment}
+\begin{lstlisting}
+\begin{${1:environment}}
+	$0
+\end{${1:environment}}
+\end{lstlisting}
+\subsubsection*{\texttt{enum}: Numbered list}
+\begin{lstlisting}
+\begin{enumerate}
+	\item $0
+\end{enumerate}
+\end{lstlisting}
+\subsubsection*{\texttt{item}: Bullet list}
+\begin{lstlisting}
+\begin{itemize}
+	\item $0
+\end{itemize}
+\end{lstlisting}
+\subsubsection*{\texttt{sec}: Section heading}
+\begin{lstlisting}
+\section{${1:Title}}$0
+\end{lstlisting}
+\subsubsection*{\texttt{subsec}: Subsection heading}
+\begin{lstlisting}
+\subsection{${1:Title}}$0
+\end{lstlisting}
+\subsubsection*{\texttt{input}: Insert contents of another TeX file}
+\begin{lstlisting}
+\input{${1:filename}}$0
+\end{lstlisting}
+
+\end{document}
