@@ -1,141 +1,237 @@
-\documentclass[11pt]{article}
+\documentclass[main.tex]{subfiles}
 
-\usepackage[margin=1in]{geometry}
-\usepackage{amsmath, amssymb, amsthm, mathtools}
-\usepackage{enumitem}
-\usepackage{hyperref}
+% ==========================================
+% Individual Lecture Title
+% ==========================================
 
-% Theorem environments
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{corollary}[theorem]{Corollary}
-
-\theoremstyle{definition}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{example}[theorem]{Example}
-
-\theoremstyle{remark}
-\newtheorem{remark}[theorem]{Remark}
-
-% Document information
-\title{Math 113: Lecture Notes}
-\author{}
-\date{November 17, 2026}
+\ifSubfilesClassLoaded{%
+    \title{Math 113: Field Extensions}
+    \author{\defaultauthor}
+    \date{November 17, 2026}
+}{}
 
 \begin{document}
 
-\maketitle
+\ifSubfilesClassLoaded{\maketitle}{}
 
-\section{Lecture Notes}
+% ==========================================
+\section{November 17: Field Extensions}
+% ==========================================
+
+\subsection{Kronecker's Theorem}
 
 \begin{theorem}[Kronecker's Theorem]
-Let $F$ be a field and $f(x) \in F[x]$ a nonconstant polynomial.
-Then there exists an extension field $E \supseteq F$
-and $\alpha \in E$ such that $f(\alpha) = 0$.
+Let $F$ be a field and $f(x)\in F[x]$ a nonconstant polynomial.
+Then there exists an extension field $E\supseteq F$ and an element
+$\alpha\in E$ such that $f(\alpha)=0$.
 \end{theorem}
 
 \begin{proof}
-We know that f(x) can be factored into irreducible polynomials over F. Pick p(x) to be on eo fhtese irreducible factors. It suffices to find a zero $\alpha$ of p(x), since this will also be a zero of f(x)
-\\From last time, we know $\langle p(x) \rangle$ is maximal, Since E is a field, and $\langle p(x) \rangle$ is maximal. 
-\\ Want injective ring homomorphism $\psi:F \rightarrow E = F[x] / \langle p(x) \rangle$
-\\ Let's take $a \mapsto a + \langle p(x) \rangle$
-\\This is a ring homomorphism, since it is the composition of homomorphisms. $F \rightarrow F[X] \rightarrow F[x] / \langle p(x) \rangle$
-\\However, we need to show that this is injective. 
-\\Suppose $\psi(a) = \psi(b), \text{then } a+\langle p(x) \rangle = b _ \langle p(x) \rangle$, so $a-b \in \langle p(x) \rangle$
-\\a-b is constant, so a-b = 0, so a = b and $\psi $ is injective
-\\ So we identity F with $\operatorname{im}{\psi} \subseteq E$
+Since $F$ is a field, we can factor $f(x)$ into irreducible
+polynomials over $F$. Let $p(x)$ be one of these irreducible factors.
+It suffices to find a root $\alpha$ of $p(x)$, since then
+$f(\alpha)=0$ as well.
 
+Because $p(x)$ is irreducible in $F[x]$, the ideal $\langle p(x)\rangle$
+is maximal. Therefore
+\[
+E\defeq F[x]/\langle p(x)\rangle
+\]
+is a field.
 
-Let $\alpha = x + \langle p(x) \rangle$ 
+We want an injective ring homomorphism $\psi:F\to E$. Define
+\[
+\psi(a)=a+\langle p(x)\rangle.
+\]
 
-$\phi_{\alpha}(p(x)) = 0$
+This is a ring homomorphism because it is the composition
+\[
+F\longrightarrow F[x]\longrightarrow F[x]/\langle p(x)\rangle
+\]
+of the inclusion of constants and the quotient map.
 
-Let $p(x) = a_0 + a_1x + \dots + a_nx^n, a_i \in F \subseteq E$
-$phi_{\alpha}(p(x)) = a_0 + a_1(x + \langle p(x) \rangle) + \dots + a_n(x+ \langle p(x) \rangle)^n$
-$= (a_0 + a_1x + a_1x^2 + \dots + a_nx^n) + \langle p(x) \rangle = p(x) + \langle p(x) \rangle = 0 + \langle p(x) \rangle = 0 \in E$. Thus we found $\alpha \in E \text{ with } p(\alpha) = 0$
+To prove injectivity, suppose $\psi(a)=\psi(b)$. Then
+\[
+a+\langle p(x)\rangle=b+\langle p(x)\rangle,
+\]
+so $a-b\in\langle p(x)\rangle$.
 
+Since $a-b$ is constant while $p(x)$ has positive degree, this
+is possible only if $a-b=0$.
+
+Thus $a=b$ and $\psi$ is injective. We may therefore identify
+$F$ with $\im(\psi)\subseteq E$.
+
+Now let
+\[
+\alpha=x+\langle p(x)\rangle\in E.
+\]
+
+Write $p(x)=a_0+a_1x+\cdots+a_nx^n$, with $a_i\in F\subseteq E$.
+
+Then
+\begin{align*}
+p(\alpha)
+ &=a_0+a_1\alpha+\cdots+a_n\alpha^n\\
+ &=\bigl(a_0+a_1x+\cdots+a_nx^n\bigr)+\langle p(x)\rangle\\
+ &=p(x)+\langle p(x)\rangle\\
+ &=0_E.
+\end{align*}
+
+Therefore $\alpha$ is a root of $p$, and hence of $f$.
 \end{proof}
 
-\begin{example}
-    $F = \mathbb{R}, f(x) = x^2 + 1$ Note that this polynomial is irreducible over the field. 
-    
-    $E = \mathbb{R}[x] / \langle x^2 + 1 \rangle \text{ is a field. And } x + \langle x^2 + 1 \rangle \text{ is a zero of f}$
 
-    $\phi: E \cong \mathbb{C}, \phi(x + \langle x^2 + 1 \rangle) = i$
-
-    $i^2 = x^2 + \langle x^2 + 1 \rangle \Rightarrow i^2 + 1 = x^2 + 1 + \langle x^2 + 1 \rangle = 0$
-
-\end{example}
+% ==========================================
+% Examples
+% ==========================================
 
 \begin{example}
-    $F = \mathbb{Q}, f(x) = x^4 - 5x^2 + 6 = (x^2-2)(x^2-3)$
-    
-    $p(x) = x^2 -2$ or $p(x) = x^2 - 3$
+Let $F=\R$ and $f(x)=x^2+1$.
 
-    
+This polynomial is irreducible over $\R$, so
+\[
+E=\R[x]/\langle x^2+1\rangle
+\]
+is a field.
+
+The element $\alpha=x+\langle x^2+1\rangle$ is a root of $f$
+in $E$, because
+\[
+\alpha^2+1=(x^2+1)+\langle x^2+1\rangle=0_E.
+\]
+
+In fact, $E\cong\C$ via the map sending
+$x+\langle x^2+1\rangle$ to $i$.
 \end{example}
 
-\section{Algebraic \& Transcendental Elements}
-We have various kinds of extension fields. 
 
-We can classify elements of E into two kinds 
+\begin{example}
+Let $F=\Q$ and
+\[
+f(x)=x^4-5x^2+6=(x^2-2)(x^2-3).
+\]
+
+We may choose either irreducible factor
+$p(x)=x^2-2$ or $p(x)=x^2-3$ to construct a field
+extension containing a root of $f$.
+\end{example}
+
+
+% ==========================================
+\subsection{Algebraic and Transcendental Elements}
+% ==========================================
+
+We can classify elements of a field extension $E/F$ into two kinds.
 
 \begin{definition}
-    An element $\alpha \in E > F$ is algebraic over F if $f(\alpha) = 0$ for some nonzero $f(x) \in F[x]$
+Let $E/F$ be a field extension. An element $\alpha\in E$ is
+\emph{algebraic over $F$} if $f(\alpha)=0$ for some nonzero
+$f(x)\in F[x]$.
 
-    Otherwise, $\alpha$ is transcendental over F
-
+Otherwise, $\alpha$ is \emph{transcendental over $F$}.
 \end{definition}
 
-\begin{example}
-    $i \in \mathbb{C} \supseteq \mathbb{R}$
-    Algebraic, since it is a zero of $f(x) = x^2 + 1 \in \mathbb{R}[x]$
-    The same applies for $i \in \mathbb{C} \supseteq \mathbb{Q}$
-\end{example}
-\begin{example}
-    $\sqrt(2) \in \mathbb{R} \supseteq \mathbb{Q}$
-    Algebraic, since it is a zero of $x^2-2 \in \mathbb{Q}[x]$
-\end{example}
-\begin{example}
-    $\pi \in \mathbb{R} \supseteq \mathbb{Q}$ is transcendental. Not the zero of some polynomial over the rationals.  
-\end{example}
-\begin{example}
-    $\pi \in \mathbb{R} \supseteq \mathbb{Q}(\pi)$, the smallest subfield of R, containing Q and pi. 
-
-    So pi is algbraic since it is a zero of $x - \pi \in\mathbb{Q}(\pi)[x]$
-    
-\end{example}
 
 \begin{example}
-    $\alpha = \sqrt{1 + \sqrt{3}} \in \mathbb{R} \supseteq \mathbb{Q}$
-is algebraic, since
+The element $i\in\C$ is algebraic over $\R$, since
+$i^2+1=0$.
+
+It is also algebraic over $\Q$, for the same reason.
+\end{example}
+
+
+\begin{example}
+The element $\sqrt{2}\in\R$ is algebraic over $\Q$, since
+it is a root of $x^2-2\in\Q[x]$.
+\end{example}
+
+
+\begin{example}
+The number $\pi\in\R$ is transcendental over $\Q$.
+\end{example}
+
+
+\begin{example}
+The number $\pi$ is algebraic over $\Q(\pi)$, the smallest
+subfield of $\R$ containing $\Q$ and $\pi$, since it is a root
+of $x-\pi\in\Q(\pi)[x]$.
+\end{example}
+
+
+\begin{example}
+Let $\alpha=\sqrt{1+\sqrt{3}}\in\R$.
+
+Then $\alpha$ is algebraic over $\Q$, since
 \[
-\alpha^2 = 1 + \sqrt{3}
-\Rightarrow (\alpha^2 - 1)^2 = 3
-\Rightarrow (\alpha^2 - 1)^2 - 3 = 0.
+\begin{aligned}
+\alpha^2&=1+\sqrt{3}\\
+(\alpha^2-1)^2&=3\\
+(\alpha^2-1)^2-3&=0.
+\end{aligned}
 \]
+
+Thus $\alpha$ is a root of the nonzero polynomial
+$(x^2-1)^2-3\in\Q[x]$.
 \end{example}
 
-Note: An element of $\mathbb{C}$ that is algebraic over $\mathbb{Q}$ is called an algebraic number 
+
+An element of $\C$ that is algebraic over $\Q$ is called an
+\emph{algebraic number}.
+
+
+% ==========================================
+% Transcendental Elements and Homomorphisms
+% ==========================================
 
 \begin{theorem}
-    Let $\alpha \in E \supseteq F.$ Then $\alpha$ is transcendental over F iff $\phi_{\alpha}:F[x] \rightarrow E$ is injective
+Let $E/F$ be a field extension and $\alpha\in E$.
+
+Then $\alpha$ is transcendental over $F$ if and only if the
+evaluation homomorphism
+\[
+\phi_\alpha:F[x]\longrightarrow E,
+\qquad f(x)\longmapsto f(\alpha)
+\]
+is injective.
 \end{theorem}
+
+
 \begin{proof}
-    \[
+\[
 \begin{aligned}
-\alpha \text{ is transcendental over } F
-&\iff f(\alpha) \neq 0 \quad \text{for every nonzero } f(x) \in F[x] \\
-&\iff \phi_{\alpha}(f(x)) \neq 0 \quad \text{for every nonzero } f(x) \in F[x] \\
-&\iff \ker(\phi_{\alpha}) = \{0\} \\
-&\iff \phi_{\alpha} \text{ is injective}.
+\alpha\text{ is transcendental over }F
+&\iff f(\alpha)\ne0
+\quad\text{for every nonzero }f(x)\in F[x]\\
+&\iff \phi_\alpha(f(x))\ne0
+\quad\text{for every nonzero }f(x)\in F[x]\\
+&\iff \ker(\phi_\alpha)=\{0\}\\
+&\iff \phi_\alpha\text{ is injective}.
 \end{aligned}
 \]
 \end{proof}
 
-\begin{theorem}
-Let $\alpha \in E \supseteq F$ be algebraic over F. Then there is an irreducible polynomial with p(alpha) = 0. This p(x) is unique up to a constant factor in F and is a polynomial of minimal degree in F[x] having alpha as a zero. Thus, if $f(x) \in F[x] \text{ has } f(\alpha = 0) \Rightarrow p(x) \text{ divides } f(x)$
-\end{theorem}
-\end{document}
 
+% ==========================================
+% Minimal Polynomials
+% ==========================================
+
+\begin{theorem}
+Let $E/F$ be a field extension and let $\alpha\in E$ be
+algebraic over $F$.
+
+There is an irreducible polynomial $p(x)\in F[x]$ such that
+$p(\alpha)=0$.
+
+This polynomial is unique up to multiplication by a nonzero
+constant in $F$, and has the smallest degree among all nonzero
+polynomials in $F[x]$ having $\alpha$ as a root.
+
+Moreover, for every $f(x)\in F[x]$,
+\[
+f(\alpha)=0\quad\Longrightarrow\quad p(x)\mid f(x).
+\]
+\end{theorem}
+
+
+\end{document}

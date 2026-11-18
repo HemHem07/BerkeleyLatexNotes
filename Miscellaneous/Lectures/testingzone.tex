@@ -1,15 +1,18 @@
-\documentclass{article}
-\usepackage{../../../mystyle/Style}
-\usepackage[margin=1in]{geometry}
+\documentclass[main.tex]{subfiles}
 
-\title{Course -- Lecture Number}
-\author{\defaultauthor}
-\date{Lecture Date}
+% Individual lecture title
+\ifSubfilesClassLoaded{%
+    \title{Course: Topic}
+    \author{\defaultauthor}
+    \date{Lecture Date}
+}{}
 
 \begin{document}
-\maketitle
 
-\section{Topic}
+\ifSubfilesClassLoaded{\maketitle}{}
+
+\section{Lecture Number: Topic}
+
 
 
 \end{document}
